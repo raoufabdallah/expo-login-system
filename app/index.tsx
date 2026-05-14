@@ -7,7 +7,7 @@ import {
   FlatList,
   ScrollView,
   StyleSheet,
-  ActivityIndicator,
+  ActivityIndicator, 
   KeyboardAvoidingView,
   Platform,
   Alert,
