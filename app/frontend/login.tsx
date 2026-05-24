@@ -3,30 +3,31 @@ import { useState } from "react";
 
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { s } from "./css/styles";
+import { s } from "../css/styles";
 
-export default function SignupScreen() {
+export default function LoginScreen() {
   const router = useRouter();
 
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
 
       <View style={s.container}>
-        <Text style={s.title}>Sign Up</Text>
+        <TouchableOpacity
+          onPress={() => router.push("/")}
+          style={{
+            position: "absolute",
+            top: 60,
+            left: 20,
+          }}
+        >
+          <Text style={{ fontSize: 18 }}>← Back</Text>
+        </TouchableOpacity>
 
-        <TextInput
-          style={s.input}
-          placeholder="Full Name"
-          value={name}
-          onChangeText={setName}
-          autoCapitalize="words"
-        />
+        <Text style={s.title}>Log In</Text>
 
         <TextInput
           style={s.input}
@@ -35,7 +36,6 @@ export default function SignupScreen() {
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
-          autoCorrect={false}
         />
 
         <TextInput
@@ -46,20 +46,12 @@ export default function SignupScreen() {
           secureTextEntry
         />
 
-        <TextInput
-          style={s.input}
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-        />
-
         <TouchableOpacity style={s.button}>
-          <Text style={s.buttonText}>Create Account</Text>
+          <Text style={s.buttonText}>Log In</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/login")}>
-          <Text style={s.link}>Already have an account? Log in</Text>
+        <TouchableOpacity onPress={() => router.push("/frontend/signup")}>
+          <Text style={s.link}>Don't have an account? Sign up</Text>
         </TouchableOpacity>
       </View>
     </>
