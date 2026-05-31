@@ -43,4 +43,4 @@ app-example
 /android
 
 #secret
-app/backend/secret.py
+backend/secret.py
