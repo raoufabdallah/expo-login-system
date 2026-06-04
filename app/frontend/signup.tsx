@@ -1,6 +1,12 @@
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { s } from "../css/styles";
 
 export default function SignupScreen() {
@@ -10,6 +16,11 @@ export default function SignupScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const BASE_URL =
+    Platform.OS === "web"
+      ? "http://localhost:8000"
+      : "http://192.168.1.137:8000";
 
   //signup function
   const signup = async () => {
@@ -23,20 +34,17 @@ export default function SignupScreen() {
     }
 
     try {
-      const response = await fetch(
-        "http://192.168.1.137:8000/frontend/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application.json",
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            password,
-          }),
+      const response = await fetch(`${BASE_URL}/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
 
       const data = await response.json();
 
@@ -112,10 +120,8 @@ export default function SignupScreen() {
           secureTextEntry
         />
 
-        <TouchableOpacity style={s.button}>
-          <Text style={s.buttonText} onPress={signup}>
-            Create Account
-          </Text>
+        <TouchableOpacity style={s.button} onPress={signup}>
+          <Text style={s.buttonText}>Create Account</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => router.push("/frontend/login")}>
