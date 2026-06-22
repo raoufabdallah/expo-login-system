@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.db import engine, Base
 from backend.routers.signup import router as signup_router
+from backend.routers.login import router as login_router
 
 Base.metadata.create_all(bind=engine)
 

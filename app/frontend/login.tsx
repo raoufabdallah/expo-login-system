@@ -5,11 +5,26 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { s } from "../css/styles";
 
+import { BASE_URL } from "../constants/api";
+
 export default function LoginScreen() {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const login = async () => {
+    const response = await fetch(`${BASE_URL}/login`, {
+      method: "Post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: "user@example.com",
+        password: "password123",
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
 
   return (
     <>
@@ -47,7 +62,9 @@ export default function LoginScreen() {
         />
 
         <TouchableOpacity style={s.button}>
-          <Text style={s.buttonText}>Log In</Text>
+          <Text style={s.buttonText} onPress={login}>
+            Log In
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => router.push("/frontend/signup")}>

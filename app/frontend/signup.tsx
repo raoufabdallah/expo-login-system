@@ -1,12 +1,12 @@
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  Platform,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
+import { BASE_URL } from "../constants/api";
 import { s } from "../css/styles";
 
 export default function SignupScreen() {
@@ -16,11 +16,6 @@ export default function SignupScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const BASE_URL =
-    Platform.OS === "web"
-      ? "http://localhost:8000"
-      : "http://192.168.1.137:8000";
 
   //signup function
   const signup = async () => {
