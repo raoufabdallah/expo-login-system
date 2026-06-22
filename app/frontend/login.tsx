@@ -14,12 +14,13 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
 
   const login = async () => {
+    console.log("email:", email, "password:", password);
     const response = await fetch(`${BASE_URL}/login`, {
-      method: "Post",
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        email: "user@example.com",
-        password: "password123",
+        email,
+        password,
       }),
     });
     const data = await response.json();
@@ -61,10 +62,8 @@ export default function LoginScreen() {
           secureTextEntry
         />
 
-        <TouchableOpacity style={s.button}>
-          <Text style={s.buttonText} onPress={login}>
-            Log In
-          </Text>
+        <TouchableOpacity style={s.button} onPress={login}>
+          <Text style={s.buttonText}>Log In</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => router.push("/frontend/signup")}>

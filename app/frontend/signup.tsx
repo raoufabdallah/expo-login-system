@@ -1,11 +1,6 @@
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { BASE_URL } from "../constants/api";
 import { s } from "../css/styles";
 
@@ -19,6 +14,8 @@ export default function SignupScreen() {
 
   //signup function
   const signup = async () => {
+    console.log("Sending:", { name, email, password });
+
     if (!name || !email || !password || !confirmPassword) {
       alert("Please fill all fields");
       return;

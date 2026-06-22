@@ -25,7 +25,7 @@ app.add_middleware(
 
 
 app.include_router(signup_router)
-
+app.include_router(login_router)
 
 @app.get("/")
 def home():
