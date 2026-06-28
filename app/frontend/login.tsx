@@ -14,17 +14,31 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
 
   const login = async () => {
-    console.log("email:", email, "password:", password);
-    const response = await fetch(`${BASE_URL}/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-    const data = await response.json();
-    console.log(data);
+    try {
+      const response = await fetch(`${BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      console.log("response status:", response.status);
+      console.log("data:", data);
+
+      if (response.ok) {
+        router.push({
+          pathname: "./home",
+          params: { user: JSON.stringify(data) },
+        });
+        console.log("data:", JSON.stringify(data, null, 2));
+      } else {
+        alert("login failed");
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
   };
 
   return (

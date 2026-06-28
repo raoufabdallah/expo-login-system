@@ -17,5 +17,4 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     if not db_user or not db_user.password == user.password:
         raise HTTPException(status_code=401, detail="Invalid email or password")
 
-    return {"message": "login successful", "id": db_user.id}
-
+    return {"message": "login successful", "id": db_user.id, "name": db_user.name, "email": db_user.email}
