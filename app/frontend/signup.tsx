@@ -1,7 +1,7 @@
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { BASE_URL } from "../constants/api";
+import { getBaseURL } from "../constants/api";
 import { s } from "../css/styles";
 
 export default function SignupScreen() {
@@ -26,7 +26,7 @@ export default function SignupScreen() {
     }
 
     try {
-      const response = await fetch(`${BASE_URL}/signup`, {
+      const response = await fetch(`${getBaseURL()}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

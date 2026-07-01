@@ -5,7 +5,7 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { s } from "../css/styles";
 
-import { BASE_URL } from "../constants/api";
+import { getBaseURL } from "../constants/api";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function LoginScreen() {
 
   const login = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/login`, {
+      const response = await fetch(`${getBaseURL()}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,6 +35,7 @@ export default function LoginScreen() {
         console.log("data:", JSON.stringify(data, null, 2));
       } else {
         alert("login failed");
+        //console.log("data:", JSON.stringify(data, null, 2));
       }
     } catch (error) {
       console.log("error:", error);
