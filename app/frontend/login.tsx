@@ -17,12 +17,14 @@ export default function LoginScreen() {
     try {
       const response = await fetch(`${getBaseURL()}/login`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           "ngrok-skip-browser-warning": "true",
         },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await response.json();
       console.log("response status:", response.status);
       console.log("data:", data);

@@ -6,6 +6,7 @@ from backend.models.user import User
 from backend.auth.security import verify_password, create_access_token
 from backend.auth.deps import get_current_user
 
+
 router = APIRouter()
 
 class UserLogin(BaseModel):
@@ -25,8 +26,8 @@ def login(user: UserLogin,response : Response, db: Session = Depends(get_db)):
         key="access_token",
         value=access_token,
         httponly=True,
-        secure=False,   # local dev over http; set True in production (https)
-        samesite="lax",
+        secure=True,   # local dev over http; set True in production (https)
+        samesite="none",
         max_age=1800,
     )
 
@@ -34,7 +35,12 @@ def login(user: UserLogin,response : Response, db: Session = Depends(get_db)):
 
 @router.post("/logout")
 def logout(response: Response):
-    response.delete_cookie("access_token")
+    response.delete_cookie(
+        key="access_token",
+        httponly=True,
+        secure=True,
+        samesite="none",
+    )
     return {"message": "logged out"}
 
 @router.get("/me")
