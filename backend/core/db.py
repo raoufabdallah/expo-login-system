@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
-from backend.secret import link
+from secret import link
 
 DATABASE_URL = link
 engine = create_engine(

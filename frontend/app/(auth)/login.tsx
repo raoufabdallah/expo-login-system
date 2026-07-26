@@ -3,17 +3,19 @@ import { useState } from "react";
 
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { s } from "../css/styles";
+import { s } from "../../styles/styles";
 
-import { getBaseURL } from "../constants/api";
+import { getBaseURL } from "../../src/constants/api";
+import { useAuth } from "../../src/contexts/AuthContext";
 
 export default function LoginScreen() {
   const router = useRouter();
+  const { login } = useAuth(); // pulled from context now
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = async () => {
+  const handleLogin = async () => {
     try {
       const response = await fetch(`${getBaseURL()}/login`, {
         method: "POST",
@@ -30,10 +32,7 @@ export default function LoginScreen() {
       console.log("data:", data);
 
       if (response.ok) {
-        router.push({
-          pathname: "./home",
-          params: { user: JSON.stringify(data) },
-        });
+        login();
         console.log("data:", JSON.stringify(data, null, 2));
       } else {
         alert("login failed");
@@ -79,11 +78,11 @@ export default function LoginScreen() {
           secureTextEntry
         />
 
-        <TouchableOpacity style={s.button} onPress={login}>
+        <TouchableOpacity style={s.button} onPress={handleLogin}>
           <Text style={s.buttonText}>Log In</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/frontend/signup")}>
+        <TouchableOpacity onPress={() => router.push("/(auth)/signup")}>
           <Text style={s.link}>Don't have an account? Sign up</Text>
         </TouchableOpacity>
       </View>

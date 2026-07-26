@@ -2,9 +2,9 @@ from fastapi import Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from jose import jwt, JWTError
 
-from backend.db import get_db
-from backend.models.user import User
-from backend.auth.security import SECRET_KEY, ALGORITHM
+from core.db import get_db
+from models.user import User
+from core.security import SECRET_KEY, ALGORITHM
 
 def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
     token = request.cookies.get("access_token")

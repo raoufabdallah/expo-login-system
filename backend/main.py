@@ -2,9 +2,9 @@ from fastapi import FastAPI
 
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.db import engine, Base
-from backend.routers.signup import router as signup_router
-from backend.routers.login import router as login_router
+from core.db import engine, Base
+from routers.auth.signup import router as signup_router
+from routers.auth.login import router as login_router
 
 Base.metadata.create_all(bind=engine)
 

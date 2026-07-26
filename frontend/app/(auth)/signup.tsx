@@ -1,11 +1,13 @@
 import { Stack, useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { getBaseURL } from "../constants/api";
-import { s } from "../css/styles";
+import { getBaseURL } from "../../src/constants/api";
+import { useAuth } from "../../src/contexts/AuthContext";
+import { s } from "../../styles/styles";
 
 export default function SignupScreen() {
   const router = useRouter();
+  const { login } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,6 +30,7 @@ export default function SignupScreen() {
     try {
       const response = await fetch(`${getBaseURL()}/signup`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           "ngrok-skip-browser-warning": "true",
@@ -46,11 +49,13 @@ export default function SignupScreen() {
         return;
       }
 
+      await login();
+
       console.log(data);
 
       alert("Account created!");
 
-      router.push("/frontend/login");
+      router.replace("/home");
     } catch (error) {
       console.log(error);
       alert("error");
@@ -117,7 +122,7 @@ export default function SignupScreen() {
           <Text style={s.buttonText}>Create Account</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push("/frontend/login")}>
+        <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
           <Text style={s.link}>Already have an account? Log in</Text>
         </TouchableOpacity>
       </View>

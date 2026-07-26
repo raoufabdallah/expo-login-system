@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, EmailStr
-from backend.db import get_db
-from backend.models.user import User
-from backend.auth.security import verify_password, create_access_token
-from backend.auth.deps import get_current_user
+from core.db import get_db
+from models.user import User
+from core.security import verify_password, create_access_token
+from core.deps import get_current_user
 
 
 router = APIRouter()
@@ -26,8 +26,8 @@ def login(user: UserLogin,response : Response, db: Session = Depends(get_db)):
         key="access_token",
         value=access_token,
         httponly=True,
-        secure=True,   # local dev over http; set True in production (https)
-        samesite="none",
+        secure=False,  
+        samesite= "lax",
         max_age=1800,
     )
 
@@ -38,8 +38,8 @@ def logout(response: Response):
     response.delete_cookie(
         key="access_token",
         httponly=True,
-        secure=True,
-        samesite="none",
+        secure=False,
+        samesite="lax",
     )
     return {"message": "logged out"}
 

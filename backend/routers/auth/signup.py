@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from backend.db import get_db
-from backend.models.user import User
-from backend.auth.security import hash_password
+from core.db import get_db
+from models.user import User
+from core.security import hash_password
 
 
 router = APIRouter()
@@ -31,6 +31,17 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+
+    access_token = create_access_token(data={"sub": str(new_user.id)})
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=False,       # False for local dev
+        samesite="lax",
+        max_age=1800,
+        path="/",
+    )
 
     return {
         "message": "User created",
